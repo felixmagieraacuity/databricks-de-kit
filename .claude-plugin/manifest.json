@@ -1,0 +1,45 @@
+{
+  "name": "databricks-de-kit",
+  "version": "0.2.0",
+  "description": "Claude Code kit for Databricks Data Engineering — MCP, skills, autonomous agents, commands, hooks, CLAUDE.md",
+  "skills": [
+    "skills/bronze_ingestion/SKILL.md",
+    "skills/silver_transformation/SKILL.md",
+    "skills/spark_patterns/SKILL.md",
+    "skills/databricks_quality_auditor/SKILL.md",
+    "skills/databricks-spark-declarative-pipelines/SKILL.md",
+    "skills/databricks-dbsql/SKILL.md",
+    "skills/databricks-spark-structured-streaming/SKILL.md",
+    "skills/spark-python-data-source/SKILL.md",
+    "skills/databricks-jobs/SKILL.md",
+    "skills/databricks-unity-catalog/SKILL.md",
+    "skills/databricks-zerobus-ingest/SKILL.md",
+    "skills/databricks-ai-functions/SKILL.md",
+    "skills/databricks-iceberg/SKILL.md",
+    "skills/databricks-metric-views/SKILL.md",
+    "skills/databricks-synthetic-data-gen/SKILL.md",
+    "skills/databricks-python-sdk/SKILL.md",
+    "skills/databricks-bundles/SKILL.md",
+    "skills/databricks-docs/SKILL.md",
+    "skills/databricks-config/SKILL.md",
+    "skills/databricks-aibi-dashboards/SKILL.md",
+    "skills/databricks-lakebase-provisioned/SKILL.md",
+    "skills/databricks-lakebase-autoscale/SKILL.md",
+    "skills/databricks-genie/SKILL.md"
+  ],
+  "commands": [
+    ".claude/commands/de_scaffold_pipeline.md",
+    ".claude/commands/de_inspect_generate_validate.md",
+    ".claude/commands/de_dbx_debug_job.md"
+  ],
+  "agents": [
+    "agents/databricks-medallion-scaffolder.md",
+    "agents/databricks-job-debugger.md"
+  ],
+  "hooks": {
+    "pre_commit_guard": "hooks/pre_commit_guard.py",
+    "sqlfluff_guard": "hooks/sqlfluff_guard.py",
+    "extract_learnings": "hooks/extract_learnings.py",
+    "destructive_op_guard": "hooks/destructive_op_guard.py"
+  }
+}
