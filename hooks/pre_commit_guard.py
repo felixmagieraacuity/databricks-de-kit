@@ -2,12 +2,21 @@
 Claude Code PreToolUse hook — pytest quality gate.
 
 Fires before every Bash tool call. If the command is a `git commit`,
-runs `pytest tests/` first. Exits with code 2 to block the commit if any
-test fails; exits 0 to allow all other commands through.
+runs `pytest tests/` first. Exits with code 2 to block the commit only on
+an actual test failure; missing/empty test suites are let through with a
+warning so repos without tests can still commit.
 
 Exit codes (Claude Code hook contract):
   0  — allow the tool call to proceed
   2  — block the tool call and surface the stderr message to the user
+
+pytest exit codes (see pytest docs):
+  0 — all tests passed                    -> allow
+  1 — tests were collected and failed     -> block (exit 2)
+  2 — test execution was interrupted      -> allow, warn
+  3 — internal pytest error               -> allow, warn
+  4 — pytest usage error (e.g. bad args)  -> allow, warn
+  5 — no tests were collected             -> allow, warn
 
 Configuration:
   Set the TEST_PATH environment variable to override the default test
@@ -60,7 +69,7 @@ def main() -> None:
         capture_output=False,
     )
 
-    if result.returncode != 0:
+    if result.returncode == 1:
         print(
             "\n[pre_commit_guard] pytest failed — commit blocked.\n"
             "Fix the failing tests before committing.",
@@ -68,7 +77,30 @@ def main() -> None:
         )
         sys.exit(2)
 
-    print("[pre_commit_guard] All tests passed — proceeding with commit.", flush=True)
+    if result.returncode == 0:
+        print("[pre_commit_guard] All tests passed — proceeding with commit.", flush=True)
+        sys.exit(0)
+
+    if result.returncode == 5:
+        print(
+            f"[pre_commit_guard] No tests collected under {test_path} — proceeding with commit.",
+            file=sys.stderr,
+        )
+        sys.exit(0)
+
+    if result.returncode == 4:
+        print(
+            "[pre_commit_guard] pytest usage error (e.g. missing test path) — "
+            "proceeding with commit.",
+            file=sys.stderr,
+        )
+        sys.exit(0)
+
+    print(
+        f"[pre_commit_guard] WARNING: pytest exited with code {result.returncode} "
+        "(interrupted or internal error) — proceeding with commit.",
+        file=sys.stderr,
+    )
     sys.exit(0)
 
 

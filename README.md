@@ -8,7 +8,7 @@ One-liner to get Claude Code set up for Databricks Data Engineering.
 
 ```bash
 # add this repo as a marketplace, then install the plugin
-/plugin marketplace add your-org/databricks-de-kit
+/plugin marketplace add felixmagieraacuity/databricks-de-kit
 /plugin install databricks-de-kit@databricks-de-kit
 ```
 
@@ -23,15 +23,14 @@ point the marketplace at a local clone:
 
 **Windows (PowerShell)**
 ```powershell
-irm https://raw.githubusercontent.com/your-org/databricks-de-kit/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/felixmagieraacuity/databricks-de-kit/main/install.ps1 | iex
 ```
 
 **Mac / Linux**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/your-org/databricks-de-kit/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/felixmagieraacuity/databricks-de-kit/main/install.sh | bash
 ```
 
-> **Note:** Update the URL above to match your actual repository location before publishing.
 
 ## What gets installed
 
