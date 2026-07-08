@@ -215,7 +215,7 @@ fi
 
 if [ -n "$AI_DEV_KIT_DIR" ] && [ -d "$AI_DEV_KIT_DIR" ]; then
     if command -v uv >/dev/null 2>&1; then
-        if (cd "$AI_DEV_KIT_DIR" && uv pip install -e ./databricks-tools-core -e ./databricks-mcp-server); then
+        if uv venv "$AI_DEV_KIT_DIR/.venv" >/dev/null 2>&1 && (cd "$AI_DEV_KIT_DIR" && VIRTUAL_ENV="$AI_DEV_KIT_DIR/.venv" uv pip install -e ./databricks-tools-core -e ./databricks-mcp-server); then
             echo "  ai-dev-kit MCP dependencies installed"
         else
             echo "  WARNING: uv pip install failed for ai-dev-kit. Install manually:"

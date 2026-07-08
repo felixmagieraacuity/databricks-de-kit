@@ -218,6 +218,8 @@ print(f"  Hooks merged into {settings_path}")
     if ($aiDevKitDir -and (Test-Path $aiDevKitDir)) {
         if (Get-Command uv -ErrorAction SilentlyContinue) {
             Push-Location $aiDevKitDir
+            uv venv (Join-Path $aiDevKitDir ".venv") | Out-Null
+            $env:VIRTUAL_ENV = Join-Path $aiDevKitDir ".venv"
             uv pip install -e ./databricks-tools-core -e ./databricks-mcp-server
             $uvExit = $LASTEXITCODE
             Pop-Location
