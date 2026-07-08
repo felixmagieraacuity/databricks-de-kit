@@ -3,14 +3,12 @@
 #
 # Usage:
 #   irm https://raw.githubusercontent.com/felixmagieraacuity/databricks-de-kit/main/install.ps1 | iex
-#   .\install.ps1 -Scope project|team|global
+#   $env:KIT_SCOPE="project"; irm .../install.ps1 | iex   (non-interactive)
 #
 # Safe to run piped (irm | iex has no script path) and safe to run from a
 # local clone (reuses local files, no network clone).
-param(
-    [ValidateSet("project", "team", "global")]
-    [string]$Scope = ""
-)
+# Scope from env (irm | iex cannot pass -Scope); empty -> prompt below.
+$Scope = if ($env:KIT_SCOPE) { $env:KIT_SCOPE } else { "" }
 
 Set-StrictMode -Off
 $ErrorActionPreference = 'Continue'
