@@ -40,7 +40,7 @@ fi
 
 # Step 2: resolve KIT_DIR — local clone next to this script if present,
 # otherwise clone into a temp dir (pipe-safe: curl | bash has no script dir).
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd || true)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" 2>/dev/null && pwd || true)"
 TMP_CLONE_DIR=""
 
 cleanup() {
