@@ -296,7 +296,7 @@ echo "[5/5] Done!"
 cat <<EOF
 
 What was installed ($SCOPE scope):
-  - 4 custom skills + 19 Databricks platform skills (via databricks aitools install)
+  - 23 Databricks DE skills (4 custom + 19 platform)
   - 3 slash commands: /de:scaffold-pipeline, /de:inspect-generate-validate, /de:dbx-debug-job
   - 2 autonomous agents: databricks-medallion-scaffolder, databricks-job-debugger
   - 4 hooks (wired into settings.json): pre_commit_guard, destructive_op_guard, sqlfluff_guard, extract_learnings
