@@ -317,3 +317,110 @@ Next steps:
   1. databricks auth login   (then set DATABRICKS_CONFIG_PROFILE to the resulting profile)
   2. Fill in .env.example / your Databricks workspace details as needed
 EOF
+
+# Step 10: ELI5 onboarding HTML
+HTML_OUT="$DEST/databricks-de-kit-start.html"
+cat <<'HTMLEOF' > "$HTML_OUT"
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Databricks DE Kit — Was du jetzt hast</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f1117;color:#e1e4e8;padding:2.5rem;max-width:900px;margin:0 auto}
+  h1{color:#ff3621;font-size:1.75rem;margin-bottom:.25rem}
+  .sub{color:#8b949e;margin-bottom:2.5rem;font-size:.95rem}
+  h2{color:#8b949e;font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;margin:2.5rem 0 .75rem}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.875rem}
+  .card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:1.25rem}
+  .card code{background:#21262d;color:#ff7b72;padding:.2rem .5rem;border-radius:4px;font-size:.85rem;display:inline-block;margin-bottom:.75rem}
+  .card p{font-size:.875rem;line-height:1.55;color:#c9d1d9}
+  .when{margin-top:.6rem;font-size:.8rem;color:#8b949e}
+  .when strong{color:#58a6ff}
+  table{width:100%;border-collapse:collapse;margin-top:.5rem}
+  td,th{padding:.55rem .75rem;text-align:left;border-bottom:1px solid #21262d;font-size:.85rem}
+  th{color:#8b949e;font-weight:500}
+  td code{background:#21262d;color:#ff7b72;padding:.1rem .35rem;border-radius:3px;font-size:.8rem}
+  .auto{background:#0d1117;border:1px solid #ff3621;border-radius:8px;padding:1.5rem;margin-top:2.5rem}
+  .auto h2{margin:0 0 .5rem;color:#ff3621;font-size:.95rem;text-transform:none;letter-spacing:0}
+  .auto .desc{color:#8b949e;font-size:.8rem;margin-bottom:1rem}
+  .item{margin:.5rem 0}
+  .item .lbl{font-size:.72rem;color:#8b949e;margin-bottom:.2rem}
+  .item .cmd{background:#161b22;border-radius:5px;padding:.65rem .9rem;font-family:'SF Mono',Menlo,monospace;font-size:.82rem;color:#79c0ff;border:1px solid #30363d}
+</style>
+</head>
+<body>
+<h1>Databricks DE Kit</h1>
+<p class="sub">Installiert. Hier ist, was du jetzt hast — und wie du es einsetzt.</p>
+
+<h2>Slash Commands — Direkt in Claude eintippen</h2>
+<div class="grid">
+  <div class="card">
+    <code>/de:scaffold-pipeline</code>
+    <p>Du sagst "neue Datenquelle X" — Claude inspiziert das Schema, schreibt Bronze- und Silver-Notebooks und richtet den Databricks Job ein. Von Null zur laufenden Pipeline.</p>
+    <p class="when"><strong>Wann:</strong> Neue Datenquelle onboarden.</p>
+  </div>
+  <div class="card">
+    <code>/de:inspect-generate-validate</code>
+    <p>Zeig mir meine Daten und schreib Code dafür. Claude profiliert die Tabelle, generiert Transformationen und validiert das Ergebnis — alles in einem Schritt.</p>
+    <p class="when"><strong>Wann:</strong> Tabelle verstehen + sofort Code dafür.</p>
+  </div>
+  <div class="card">
+    <code>/de:dbx-debug-job</code>
+    <p>Job fehlgeschlagen? Gib die Run-ID an. Claude holt die Logs, liest den Code, findet den Root-Cause und schlägt den kleinsten möglichen Fix vor.</p>
+    <p class="when"><strong>Wann:</strong> Ein Databricks Job ist abgestürzt.</p>
+  </div>
+</div>
+
+<h2>Autonome Agents — Laufen selbstständig durch</h2>
+<div class="grid">
+  <div class="card">
+    <code>databricks-medallion-scaffolder</code>
+    <p>Wie scaffold-pipeline, aber vollständig autonom. Kein Nachfragen — inspiziert, schreibt Bronze/Silver/Gold, validiert. Für komplexe Multi-Layer-Pipelines.</p>
+  </div>
+  <div class="card">
+    <code>databricks-job-debugger</code>
+    <p>Wie dbx-debug-job, aber autonom. Gibt dir am Ende: Root-Cause in 2 Zeilen + Fix + Validierung. Kein Rauschen.</p>
+  </div>
+</div>
+
+<h2>Hooks — Laufen still im Hintergrund</h2>
+<table>
+  <tr><th>Hook</th><th>Was er tut</th></tr>
+  <tr><td><code>pre_commit_guard</code></td><td>Stoppt git commits wenn Tests fehlschlagen</td></tr>
+  <tr><td><code>destructive_op_guard</code></td><td>Blockiert destruktive Operationen (schema-breaking DDL, unsichere Deletes)</td></tr>
+  <tr><td><code>sqlfluff_guard</code></td><td>Formatiert SQL-Dateien automatisch nach jedem Speichern</td></tr>
+  <tr><td><code>extract_learnings</code></td><td>Destilliert am Session-Ende was Claude gelernt hat in docs/learnings/</td></tr>
+</table>
+
+<div class="auto">
+  <h2>Soll ich dir was automatisieren?</h2>
+  <p class="desc">Kopier eine dieser Zeilen direkt in Claude:</p>
+
+  <div class="item">
+    <div class="lbl">Health-Check aller Bronze-Tabellen</div>
+    <div class="cmd">/de:inspect-generate-validate — führe das für alle Tabellen in meinem Bronze-Schema aus und gib mir einen Qualitäts-Report</div>
+  </div>
+  <div class="item">
+    <div class="lbl">CLAUDE.md mit echten Werten befüllen</div>
+    <div class="cmd">Ergänze meine CLAUDE.md mit meinen Databricks-Werten: CATALOG=..., SCHEMA=..., HOST=...</div>
+  </div>
+  <div class="item">
+    <div class="lbl">Erste Pipeline scaffolden</div>
+    <div class="cmd">/de:scaffold-pipeline — starte mit meiner ersten Datenquelle: [Tabellenname einfügen]</div>
+  </div>
+  <div class="item">
+    <div class="lbl">Letzten failing Job fixen</div>
+    <div class="cmd">/de:dbx-debug-job — mein letzter Job-Run hat gefailed, analysiere und fix ihn: [Run-ID einfügen]</div>
+  </div>
+</div>
+</body>
+</html>
+HTMLEOF
+
+echo ""
+echo "  Onboarding guide: $HTML_OUT"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    open "$HTML_OUT" 2>/dev/null || true
+fi
